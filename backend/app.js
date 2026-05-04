@@ -21,11 +21,10 @@ app.use(express.urlencoded({ extended: true }));
     console.error('DB connection failed:', err);
   }
 })();
-// Home page – show ALL songs
 
+// Home page – show ALL songs
 app.get('/', async (req, res) => {
   try {
-    // Get all songs with artist info
     const songsResult = await db.query(`
       SELECT 
         s.song_id, 
@@ -42,7 +41,6 @@ app.get('/', async (req, res) => {
       ORDER BY s.upload_date DESC
     `);
 
-    // Get comments for ALL songs in one query (more efficient than N+1 queries)
     const commentsResult = await db.query(`
       SELECT 
         c.song_id,
@@ -63,8 +61,19 @@ app.get('/', async (req, res) => {
       commentsBySong[comment.song_id].push(comment);
     });
 
-    // Attach comments to each song
-    const songsWithComments = songsResult.rows.map(song => ({
+    // 🔧 FIX: Remove duplicate songs
+    const uniqueSongs = [];
+    const seen = new Set();
+
+    songsResult.rows.forEach(song => {
+      if (!seen.has(song.song_id)) {
+        seen.add(song.song_id);
+        uniqueSongs.push(song);
+      }
+    });
+
+    // Attach comments to each unique song
+    const songsWithComments = uniqueSongs.map(song => ({
       ...song,
       comments: commentsBySong[song.song_id] || []
     }));
@@ -79,12 +88,11 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Song detail (now redundant since homepage shows all data)
+// Song detail
 app.get('/song/:id', async (req, res) => {
   try {
     const songId = req.params.id;
     
-    // Get song details
     const songResult = await db.query(`
       SELECT 
         s.title, 
@@ -106,7 +114,6 @@ app.get('/song/:id', async (req, res) => {
       return res.status(404).send('Song not found');
     }
 
-    // Get comments for this song
     const commentsResult = await db.query(`
       SELECT 
         c.content, 
@@ -118,10 +125,10 @@ app.get('/song/:id', async (req, res) => {
       ORDER BY c.timestamp DESC
     `, [songId]);
 
-     res.render('song', {
+    res.render('song', {
       song: songResult.rows[0],
       comments: commentsResult.rows,
-      isOwner: true, // TEMPORARY - replace with real auth check
+      isOwner: true,
       formatDate: (date) => new Date(date).toLocaleString()
     });
   } catch (err) {
@@ -129,6 +136,7 @@ app.get('/song/:id', async (req, res) => {
     res.status(500).send('Error loading song details');
   }
 });
+
 app.get('/playlists', async (req, res) => {
   try {
     const result = await db.query(`
@@ -143,15 +151,14 @@ app.get('/playlists', async (req, res) => {
     res.status(500).send('Error loading playlists');
   }
 });
+
 app.get('/playlists/:user_id/:name', async (req, res) => {
   const { user_id, name } = req.params;
 
   try {
-    // Fetch playlist creator's username
     const userResult = await db.query(`SELECT username FROM users WHERE user_id = $1`, [user_id]);
     if (userResult.rows.length === 0) return res.status(404).send('User not found');
 
-    // Fetch songs in the playlist
     const songsResult = await db.query(`
       SELECT s.song_id, s.title, a.name AS artist_name
       FROM contains c
@@ -170,11 +177,11 @@ app.get('/playlists/:user_id/:name', async (req, res) => {
     res.status(500).send('Error loading playlist songs');
   }
 });
+
 app.get('/artist/:id', async (req, res) => {
   try {
     const artistId = req.params.id;
     
-    // Get artist info
     const artistResult = await db.query(`
       SELECT name, bio FROM artist WHERE artist_id = $1
     `, [artistId]);
@@ -183,7 +190,6 @@ app.get('/artist/:id', async (req, res) => {
       return res.status(404).send('Artist not found');
     }
 
-    // Get all songs by this artist
     const songsResult = await db.query(`
       SELECT 
         s.song_id, 
@@ -210,14 +216,12 @@ app.get('/artist/:id', async (req, res) => {
     res.status(500).send('Error loading artist page');
   }
 });
+
 app.post('/song/:id/delete', async (req, res) => {
   try {
-    // First delete related records
     await db.query('DELETE FROM comments WHERE song_id = $1', [req.params.id]);
     await db.query('DELETE FROM contains WHERE song_id = $1', [req.params.id]);
     await db.query('DELETE FROM performed_by WHERE song_id = $1', [req.params.id]);
-    
-    // Then delete the song
     await db.query('DELETE FROM song WHERE song_id = $1', [req.params.id]);
     
     res.redirect('/');
@@ -226,7 +230,6 @@ app.post('/song/:id/delete', async (req, res) => {
     res.status(500).send('Error deleting song');
   }
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
