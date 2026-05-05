@@ -230,7 +230,7 @@ Environment variables must be configured on Render.
 
 \- Anirudh A S
 
-\- (Friend's Name)
+\- Karen P
 
 
 
