@@ -1,32 +1,3 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 17.5
--- Dumped by pg_dump version 17.5
-
--- Started on 2025-06-13 09:44:08
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
--- SET transaction_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
-
---
--- TOC entry 220 (class 1259 OID 16397)
--- Name: album; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.album (
     album_id integer NOT NULL,
@@ -35,12 +6,6 @@ CREATE TABLE public.album (
 );
 
 
--- ALTER TABLE public.album OWNER TO postgres;
-
---
--- TOC entry 219 (class 1259 OID 16396)
--- Name: album_album_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
 
 CREATE SEQUENCE public.album_album_id_seq
     AS integer
@@ -51,34 +16,12 @@ CREATE SEQUENCE public.album_album_id_seq
     CACHE 1;
 
 
--- ALTER SEQUENCE public.album_album_id_seq OWNER TO postgres;
-
---
--- TOC entry 4997 (class 0 OID 0)
--- Dependencies: 219
--- Name: album_album_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
--- ALTER SEQUENCE public.album_album_id_seq OWNED BY public.album.album_id;
-
-
---
--- TOC entry 232 (class 1259 OID 16501)
--- Name: appears_on; Type: TABLE; Schema: public; Owner: postgres
---
-
 CREATE TABLE public.appears_on (
     song_id integer NOT NULL,
     album_id integer NOT NULL
 );
 
 
--- ALTER TABLE public.appears_on OWNER TO postgres;
-
---
--- TOC entry 224 (class 1259 OID 16413)
--- Name: artist; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.artist (
     artist_id integer NOT NULL,
@@ -87,12 +30,6 @@ CREATE TABLE public.artist (
 );
 
 
--- ALTER TABLE public.artist OWNER TO postgres;
-
---
--- TOC entry 223 (class 1259 OID 16412)
--- Name: artist_artist_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
 
 CREATE SEQUENCE public.artist_artist_id_seq
     AS integer
@@ -103,21 +40,7 @@ CREATE SEQUENCE public.artist_artist_id_seq
     CACHE 1;
 
 
--- ALTER SEQUENCE public.artist_artist_id_seq OWNER TO postgres;
 
---
--- TOC entry 4998 (class 0 OID 0)
--- Dependencies: 223
--- Name: artist_artist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
--- ALTER SEQUENCE public.artist_artist_id_seq OWNED BY public.artist.artist_id;
-
-
---
--- TOC entry 229 (class 1259 OID 16452)
--- Name: comments; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.comments (
     comment_id integer NOT NULL,
@@ -128,12 +51,6 @@ CREATE TABLE public.comments (
 );
 
 
--- ALTER TABLE public.comments OWNER TO postgres;
-
---
--- TOC entry 228 (class 1259 OID 16451)
--- Name: comments_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
 
 CREATE SEQUENCE public.comments_comment_id_seq
     AS integer
@@ -143,22 +60,6 @@ CREATE SEQUENCE public.comments_comment_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
--- ALTER SEQUENCE public.comments_comment_id_seq OWNER TO postgres;
-
---
--- TOC entry 4999 (class 0 OID 0)
--- Dependencies: 228
--- Name: comments_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
--- ALTER SEQUENCE public.comments_comment_id_seq OWNED BY public.comments.comment_id;
-
-
---
--- TOC entry 233 (class 1259 OID 16516)
--- Name: contains; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.contains (
     user_id integer NOT NULL,
@@ -181,12 +82,6 @@ CREATE TABLE public.genre (
 );
 
 
--- ALTER TABLE public.genre OWNER TO postgres;
-
---
--- TOC entry 221 (class 1259 OID 16403)
--- Name: genre_genre_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
 
 CREATE SEQUENCE public.genre_genre_id_seq
     AS integer
@@ -318,71 +213,6 @@ CREATE SEQUENCE public.users_user_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
--- ALTER SEQUENCE public.users_user_id_seq OWNER TO postgres;
-
---
--- TOC entry 5002 (class 0 OID 0)
--- Dependencies: 217
--- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
--- ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
-
-
---
--- TOC entry 4788 (class 2604 OID 16400)
--- Name: album album_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.album ALTER COLUMN album_id SET DEFAULT nextval('public.album_album_id_seq'::regclass);
-
-
---
--- TOC entry 4790 (class 2604 OID 16416)
--- Name: artist artist_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.artist ALTER COLUMN artist_id SET DEFAULT nextval('public.artist_artist_id_seq'::regclass);
-
-
---
--- TOC entry 4792 (class 2604 OID 16455)
--- Name: comments comment_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.comments ALTER COLUMN comment_id SET DEFAULT nextval('public.comments_comment_id_seq'::regclass);
-
-
---
--- TOC entry 4789 (class 2604 OID 16407)
--- Name: genre genre_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.genre ALTER COLUMN genre_id SET DEFAULT nextval('public.genre_genre_id_seq'::regclass);
-
-
---
--- TOC entry 4791 (class 2604 OID 16423)
--- Name: song song_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.song ALTER COLUMN song_id SET DEFAULT nextval('public.song_song_id_seq'::regclass);
-
-
---
--- TOC entry 4787 (class 2604 OID 16393)
--- Name: users user_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
-
-
---
--- TOC entry 4978 (class 0 OID 16397)
--- Dependencies: 220
--- Data for Name: album; Type: TABLE DATA; Schema: public; Owner: postgres
---
 
 INSERT INTO public.album VALUES (1, 'Ylang Ylang EP', '2019-11-12');
 INSERT INTO public.album VALUES (2, 'BRAT', '2024-06-07');
@@ -734,290 +564,4 @@ INSERT INTO public.users VALUES (7, 'alex_martin', 'alex.martin95@yahoo.com');
 INSERT INTO public.users VALUES (8, 'jessica_lee', 'jlee.work@outlook.com');
 INSERT INTO public.users VALUES (9, 'ryan_clark', 'ryan.clark2020@gmail.com');
 INSERT INTO public.users VALUES (10, 'olivia_brown', 'olivia.brown@icloud.com');
-
-
---
--- TOC entry 5003 (class 0 OID 0)
--- Dependencies: 219
--- Name: album_album_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.album_album_id_seq', 10, true);
-
-
---
--- TOC entry 5004 (class 0 OID 0)
--- Dependencies: 223
--- Name: artist_artist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.artist_artist_id_seq', 10, true);
-
-
---
--- TOC entry 5005 (class 0 OID 0)
--- Dependencies: 228
--- Name: comments_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.comments_comment_id_seq', 30, true);
-
-
---
--- TOC entry 5006 (class 0 OID 0)
--- Dependencies: 221
--- Name: genre_genre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.genre_genre_id_seq', 10, true);
-
-
---
--- TOC entry 5007 (class 0 OID 0)
--- Dependencies: 225
--- Name: song_song_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.song_song_id_seq', 30, true);
-
-
---
--- TOC entry 5008 (class 0 OID 0)
--- Dependencies: 217
--- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.users_user_id_seq', 10, true);
-
-
---
--- TOC entry 4797 (class 2606 OID 16402)
--- Name: album album_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.album
-    ADD CONSTRAINT album_pkey PRIMARY KEY (album_id);
-
-
---
--- TOC entry 4813 (class 2606 OID 16505)
--- Name: appears_on appears_on_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.appears_on
-    ADD CONSTRAINT appears_on_pkey PRIMARY KEY (song_id, album_id);
-
-
---
--- TOC entry 4801 (class 2606 OID 16418)
--- Name: artist artist_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.artist
-    ADD CONSTRAINT artist_pkey PRIMARY KEY (artist_id);
-
-
---
--- TOC entry 4807 (class 2606 OID 16460)
--- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comments_pkey PRIMARY KEY (comment_id);
-
-
---
--- TOC entry 4815 (class 2606 OID 16520)
--- Name: contains contains_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.contains
-    ADD CONSTRAINT contains_pkey PRIMARY KEY (user_id, playlist_name, song_id);
-
-
---
--- TOC entry 4799 (class 2606 OID 16411)
--- Name: genre genre_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.genre
-    ADD CONSTRAINT genre_pkey PRIMARY KEY (genre_id);
-
-
---
--- TOC entry 4809 (class 2606 OID 16475)
--- Name: listening_history listening_history_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.listening_history
-    ADD CONSTRAINT listening_history_pkey PRIMARY KEY (user_id, song_id, date_played);
-
-
---
--- TOC entry 4811 (class 2606 OID 16490)
--- Name: performed_by performed_by_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.performed_by
-    ADD CONSTRAINT performed_by_pkey PRIMARY KEY (song_id, artist_id);
-
-
---
--- TOC entry 4805 (class 2606 OID 16445)
--- Name: playlist playlist_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.playlist
-    ADD CONSTRAINT playlist_pkey PRIMARY KEY (user_id, playlist_name);
-
-
---
--- TOC entry 4803 (class 2606 OID 16425)
--- Name: song song_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.song
-    ADD CONSTRAINT song_pkey PRIMARY KEY (song_id);
-
-
---
--- TOC entry 4795 (class 2606 OID 16395)
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
-
-
---
--- TOC entry 4826 (class 2606 OID 16511)
--- Name: appears_on appears_on_album_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.appears_on
-    ADD CONSTRAINT appears_on_album_id_fkey FOREIGN KEY (album_id) REFERENCES public.album(album_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4827 (class 2606 OID 16506)
--- Name: appears_on appears_on_song_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.appears_on
-    ADD CONSTRAINT appears_on_song_id_fkey FOREIGN KEY (song_id) REFERENCES public.song(song_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4820 (class 2606 OID 16466)
--- Name: comments comments_song_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comments_song_id_fkey FOREIGN KEY (song_id) REFERENCES public.song(song_id);
-
-
---
--- TOC entry 4821 (class 2606 OID 16461)
--- Name: comments comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id);
-
-
---
--- TOC entry 4828 (class 2606 OID 16526)
--- Name: contains contains_song_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.contains
-    ADD CONSTRAINT contains_song_id_fkey FOREIGN KEY (song_id) REFERENCES public.song(song_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4829 (class 2606 OID 16521)
--- Name: contains contains_user_id_playlist_name_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.contains
-    ADD CONSTRAINT contains_user_id_playlist_name_fkey FOREIGN KEY (user_id, playlist_name) REFERENCES public.playlist(user_id, playlist_name) ON DELETE CASCADE;
-
-
---
--- TOC entry 4822 (class 2606 OID 16481)
--- Name: listening_history listening_history_song_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.listening_history
-    ADD CONSTRAINT listening_history_song_id_fkey FOREIGN KEY (song_id) REFERENCES public.song(song_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4823 (class 2606 OID 16476)
--- Name: listening_history listening_history_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.listening_history
-    ADD CONSTRAINT listening_history_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4824 (class 2606 OID 16496)
--- Name: performed_by performed_by_artist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.performed_by
-    ADD CONSTRAINT performed_by_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES public.artist(artist_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4825 (class 2606 OID 16491)
--- Name: performed_by performed_by_song_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.performed_by
-    ADD CONSTRAINT performed_by_song_id_fkey FOREIGN KEY (song_id) REFERENCES public.song(song_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4819 (class 2606 OID 16446)
--- Name: playlist playlist_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.playlist
-    ADD CONSTRAINT playlist_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4816 (class 2606 OID 16431)
--- Name: song song_album_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.song
-    ADD CONSTRAINT song_album_id_fkey FOREIGN KEY (album_id) REFERENCES public.album(album_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4817 (class 2606 OID 16436)
--- Name: song song_genre_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.song
-    ADD CONSTRAINT song_genre_id_fkey FOREIGN KEY (genre_id) REFERENCES public.genre(genre_id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4818 (class 2606 OID 16426)
--- Name: song song_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.song
-    ADD CONSTRAINT song_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
-
-
--- Completed on 2025-06-13 09:44:08
-
---
--- PostgreSQL database dump complete
---
 
