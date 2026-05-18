@@ -1,4 +1,4 @@
-\# 🎵 Music Web App
+ 🎵 Music Web App
 
 
 
@@ -12,7 +12,7 @@ Built using Node.js, Express, PostgreSQL, and EJS.
 
 
 
-\## 🚀 Features
+ 🚀 Features
 
 
 
